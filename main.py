@@ -44,7 +44,7 @@ async def _echo(ctx, *args):
 @commands.is_owner()
 async def _warinfo(ctx):
     war = await bot.coc_client.get_clan_war(credentials["clan_tag"])
-    ctx.send(f"{war.state}, {war.status}")
+    await ctx.send(f"{war.state}, {war.status}")
 
 @bot.command(name="lastwarinfo")
 @commands.is_owner()
