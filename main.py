@@ -129,8 +129,8 @@ async def coc_war_end(old_war, new_war):
         e = discord.Embed(title="The war has ended", description=f"**{clan1.name}** | {clan1.tag} vs **{clan2.name}** {clan2.tag}")
         e.add_field(name=f"Result: {result}", value=f"{clan1.name} ⭐{clan1.stars}/{clan1.max_stars} | {clan2.name} ⭐{clan2.stars}/{clan2.max_stars}", inline=False)
         try:
-            e.add_field(name="Attacks", value="".join(f"{attack.attacker.name} attacked {attack.defender.name} and scored {attack.stars} ⭐ {attack.destruction}%\n" or attack in clan1.attacks))
-            e.add_field(name="Defenses", value="".join(f"{attack.defender.name} has been attacked by {attack.attacker.name}. Result: {attack.stars} ⭐ {attack.destruction}%\n" or attack in clan2.attacks))
+            e.add_field(name="Attacks", value="".join(f"{attack.attacker.name} attacked {attack.defender.name} and scored {attack.stars} ⭐ {attack.destruction}%\n" for attack in clan1.attacks))
+            e.add_field(name="Defenses", value="".join(f"{attack.defender.name} has been attacked by {attack.attacker.name}. Result: {attack.stars} ⭐ {attack.destruction}%\n" for attack in clan2.attacks))
         except:
             pass
 
@@ -143,8 +143,8 @@ async def coc_new_war(war):
     clan1 = war.clan
     clan2 = war.opponent
     e = discord.Embed(title="A new war has begun!", description=f"{clan1.name} | {clan1.tag} vs {clan2.name} {clan2.tag}", colour=0xffc0cb)
-    e.add_field(name=f"Players from {clan1.name}:", value=f"".join([f"{member.map_position}.{member.name} TH{member.town_hall}| {member.tag}\n" async for member in clan1.members]), inline=False)
-    e.add_field(name=f"Players from {clan2.name}:", value=f"".join([f"{member.map_position}.{member.name} TH{member.town_hall}| {member.tag}\n" async for member in clan2.members]), inline=False)
+    e.add_field(name=f"Players from {clan1.name}:", value=f"".join([f"{member.map_position}.{member.name} TH{member.town_hall}| {member.tag}\n" for member in clan1.members]), inline=False)
+    e.add_field(name=f"Players from {clan2.name}:", value=f"".join([f"{member.map_position}.{member.name} TH{member.town_hall}| {member.tag}\n" for member in clan2.members]), inline=False)
 
     await ch.send(embed=e)
 
