@@ -41,7 +41,6 @@ async def _echo(ctx, *args):
     await ctx.send(ret)
 
 @bot.command(name="warinfo")
-@commands.is_owner()
 async def _warinfo(ctx):
     war = await bot.coc_client.get_clan_war(credentials["clan_tag"])
     await ctx.send(f"{war.state}, {war.status}")
@@ -84,7 +83,7 @@ async def coc_member_donation(old_member, new_member):
     ch = bot.get_channel(1193546532700565576)
     final_donated_troops = new_member.donations - old_member.donations
 
-    ch.sendf(embed=discord.Embed(title=f"{new_member} of {new_member.clan} just donated {final_donated_troops} troops."), description="", colour=discord.Colour.dark_magenta)
+    await ch.send(embed=discord.Embed(title=f"{new_member} of {new_member.clan} just donated {final_donated_troops} troops.", description="", colour=discord.Colour.dark_magenta()))
 
 @coc.ClanEvents.member_join()
 async def coc_member_join(member, clan):
@@ -122,7 +121,7 @@ async def coc_war_end(old_war, new_war):
         war = new_war
         clan1 = war.clan
         clan2 = war.opponent
-        result = war.result
+        result = "win" if clan1.stars > clan2.stars else "lose"
 
         e = discord.Embed(title="The war has ended",
                           description=f"**{clan1.name}** | {clan1.tag} vs **{clan2.name}** {clan2.tag}")
