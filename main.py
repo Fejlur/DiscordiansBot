@@ -69,7 +69,7 @@ async def _player(ctx, tag: str):
     e.add_field(name="IP:",
                 value=f"{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}",
                 inline=False)
-    print(type(player.clan), type(player))
+    #print(type(player.clan), type(player))
     if player.clan is not None:
         e.add_field(name="Clan", value="", inline=False)
         e.add_field(name="", value=f"**rank:** {player.role}", inline=False)
@@ -122,14 +122,19 @@ async def coc_war_end(old_war, new_war):
         clan1 = war.clan
         clan2 = war.opponent
         result = "win" if clan1.stars > clan2.stars else "lose"
+        if clan1.stars == clan2.stars:
+            result = "win" if clan1.destruction > clan2.destruction else "lose"
+            if clan1.destruction == clan2.destruction: result = "draw"
 
-        e = discord.Embed(title="The war has ended",
-                          description=f"**{clan1.name}** | {clan1.tag} vs **{clan2.name}** {clan2.tag}")
-        e.add_field(name=f"Result: {result}",
-                    value=f"{clan1.name} ⭐{clan1.stars}/{clan1.max_stars} | {clan2.name} ⭐{clan2.stars}/{clan2.max_stars}",
-                    inline=False)
+        e = discord.Embed(title="The war has ended", description=f"**{clan1.name}** | {clan1.tag} vs **{clan2.name}** {clan2.tag}")
+        e.add_field(name=f"Result: {result}", value=f"{clan1.name} ⭐{clan1.stars}/{clan1.max_stars} | {clan2.name} ⭐{clan2.stars}/{clan2.max_stars}", inline=False)
+        try:
+            e.add_field(name="Attacks", value="".join(f"{attack.attacker.name} attacked {attack.defender.name} and scored {attack.stars} ⭐ {attack.destruction}%\n" or attack in clan1.attacks))
+            e.add_field(name="Defenses", value="".join(f"{attack.defender.name} has been attacked by {attack.attacker.name}. Result: {attack.stars} ⭐ {attack.destruction}%\n" or attack in clan2.attacks))
+        except:
+            pass
 
-        await ctx.send(embed=e)
+        await ch.send(embed=e)
 
 @coc.WarEvents.new_war()
 async def coc_new_war(war):
