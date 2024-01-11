@@ -102,7 +102,7 @@ async def coc_member_leave(member, clan):
 @coc.WarEvents.war_attack()
 async def coc_new_attack(attack, war):
     ch = bot.get_channel(bot.war_logs_channel_id)
-    homeclan = bot.coc_client.get_clan(credentials["clan_tag"])
+    homeclan = await bot.coc_client.get_clan(credentials["clan_tag"])
     logging.critical(f"attacker: {attack.attacker.clan} {attack.attacker.name} | defender: {attack.defender.clan} {attack.defender.name}")
     if attack.attacker.clan.tag == homeclan.tag:
         e = discord.Embed(title="New attack", description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0xfc0303)
