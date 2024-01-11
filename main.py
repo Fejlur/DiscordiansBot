@@ -102,7 +102,7 @@ async def coc_member_leave(member, clan):
 @coc.WarEvents.war_attack()
 async def coc_new_attack(attack, war):
     ch = bot.get_channel(bot.war_logs_channel_id)
-    if attacker.clan == bot.coc_client.get_clan(credentials["clan_tag"]):
+    if attack.attacker.clan == bot.coc_client.get_clan(credentials["clan_tag"]):
         e = discord.Embed(title="New attack", description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0xfc0303)
     else:
         e = discord.Embed(title="New defense",description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0x03fc77)
@@ -135,6 +135,7 @@ async def coc_war_end(old_war, new_war):
             pass
 
         await ch.send(embed=e)
+
 
 @coc.WarEvents.new_war()
 async def coc_new_war(war):
