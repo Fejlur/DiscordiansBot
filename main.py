@@ -105,9 +105,9 @@ async def coc_new_attack(attack, war):
     homeclan = await bot.coc_client.get_clan(credentials["clan_tag"])
     logging.critical(f"attacker: {attack.attacker.clan} {attack.attacker.name} | defender: {attack.defender.clan} {attack.defender.name}")
     if attack.attacker.clan.tag == homeclan.tag:
-        e = discord.Embed(title="New attack", description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0xfc0303)
+        e = discord.Embed(title="New attack", description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0x03fc77)
     else:
-        e = discord.Embed(title="New defense",description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0x03fc77)
+        e = discord.Embed(title="New defense",description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0xfc0303)
 
     e.add_field(name="Attacker", value=f"{attack.attacker.name} Tag: {attack.attacker_tag}", inline=False)
     e.add_field(name="Defender", value=f"{attack.defender.name} Tag: {attack.defender_tag}", inline=False)
