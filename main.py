@@ -119,7 +119,7 @@ async def coc_war_end(old_war, new_war):
     assert old_war.state != new_war.state
 
     if new_war.state == "warEnded":
-        ch = bot.get_channel(1193546532700565576)
+        ch = bot.get_channel(bot.war_logs_channel_id)
         war = new_war
         clan1 = war.clan
         clan2 = war.opponent
@@ -128,16 +128,15 @@ async def coc_war_end(old_war, new_war):
             result = "win" if clan1.destruction > clan2.destruction else "lose"
             if clan1.destruction == clan2.destruction: result = "draw"
 
-        e = discord.Embed(title="The war has ended", description=f"**{clan1.name}** | {clan1.tag} vs **{clan2.name}** {clan2.tag}")
+        e = discord.Embed(title="**The war has ended!**", description=f"**{clan1.name} | {clan1.tag}** vs **{clan2.name} {clan2.tag}**")
         e.add_field(name=f"Result: {result}", value=f"{clan1.name} ⭐{clan1.stars}/{clan1.max_stars} | {clan2.name} ⭐{clan2.stars}/{clan2.max_stars}", inline=False)
         try:
-            e.add_field(name="Attacks", value="".join(f"{attack.attacker.name} attacked {attack.defender.name} and scored {attack.stars} ⭐ {attack.destruction}%\n" for attack in clan1.attacks))
-            e.add_field(name="Defenses", value="".join(f"{attack.defender.name} has been attacked by {attack.attacker.name}. Result: {attack.stars} ⭐ {attack.destruction}%\n" for attack in clan2.attacks))
-        except:
-            pass
+            e.add_field(name="Attacks", value="".join(f":crossed_swords: **{attack.attacker.name}** attacked **{attack.defender.name}**.\n**Result:** {attack.stars} :star2: {attack.destruction}%\n" for attack in clan1.attacks))
+            e.add_field(name="Defenses", value="".join(f":shield: **{attack.defender.name}** has been attacked by **{attack.attacker.name}**.\n**Result:** {attack.stars} :star2: {attack.destruction}%\n" for attack in clan2.attacks))
+        except Exception as err:
+            e.add_field(name="", value=f"you fucked up nigga: {err}")
 
         await ch.send(embed=e)
-
 
 @coc.WarEvents.new_war()
 async def coc_new_war(war):
