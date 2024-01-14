@@ -132,7 +132,7 @@ async def coc_war_end(old_war, new_war):
             e.add_field(name="Attacks", value="".join(f":crossed_swords: **{attack.attacker.name}** attacked **{attack.defender.name}**.\n**Result:** {attack.stars} :star2: {attack.destruction}%\n" for attack in clan1.attacks))
             e.add_field(name="Defenses", value="".join(f":shield: **{attack.defender.name}** has been attacked by **{attack.attacker.name}**.\n**Result:** {attack.stars} :star2: {attack.destruction}%\n" for attack in clan2.attacks))
         except Exception as err:
-            e.add_field(name="", value=f"you fucked up nigga: {err}")
+            logging.critical(f"Error: {err}")
 
         await ch.send(embed=e)
 
