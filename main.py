@@ -48,7 +48,6 @@ async def _warinfo(ctx):
 @bot.command(name="lastwarinfo")
 @commands.is_owner()
 async def _lastwarinfo(ctx):
-    #ch = bot.get_channel(1193546532700565576)
     warlog = await ctx.bot.coc_client.get_war_log(credentials["clan_tag"], limit=1)
     war = warlog[0]
     clan1 = war.clan
@@ -77,7 +76,6 @@ async def _player(ctx, tag: str):
 
     await ctx.send(embed=e)
 
-# just to check if that api shit works
 @coc.ClanEvents.member_donations()
 async def coc_member_donation(old_member, new_member):
     ch = bot.get_channel(1193546532700565576)
@@ -109,8 +107,8 @@ async def coc_new_attack(attack, war):
     else:
         e = discord.Embed(title="New defense",description=f"{attack.stars} ⭐ {attack.destruction}%", colour=0xfc0303)
 
-    e.add_field(name="Attacker", value=f"{attack.attacker.name} Tag: {attack.attacker_tag}", inline=False)
-    e.add_field(name="Defender", value=f"{attack.defender.name} Tag: {attack.defender_tag}", inline=False)
+    e.add_field(name="Attacker", value=f"{attack.attacker.map_position}. **{attack.attacker.name}** | Tag: {attack.attacker_tag}", inline=False)
+    e.add_field(name="Defender", value=f"{attack.defender.map_position}. **{attack.defender.name}** | Tag: {attack.defender_tag}", inline=False)
 
     await ch.send(embed=e)
 
