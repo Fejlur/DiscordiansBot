@@ -27,10 +27,6 @@ class Bot(commands.Bot):
 
 bot = Bot()
 
-@bot.event
-async def on_ready():
-    logging.info(f"logged in as {bot.user.name}")
-
 @bot.command(name="ping")
 async def _ping(ctx):
     await ctx.send("pong")
